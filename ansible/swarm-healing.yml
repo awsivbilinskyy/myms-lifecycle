@@ -1,0 +1,14 @@
+- hosts: swarm
+  remote_user: vagrant
+  serial: 1
+  vars:
+    - debian_version: wily
+    - docker_cfg_dest: /lib/systemd/system/docker.service
+    - is_systemd: true
+  roles:
+    - common
+    - docker
+    - consul-healing
+    - consul-template
+    - swarm
+    - registrator
