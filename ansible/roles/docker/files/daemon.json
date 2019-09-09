@@ -1,4 +1,6 @@
 {
+    "insecure-registries": ["http://10.100.198.200:5000"],
+    "registry-mirror": ["http://10.100.198.200:5000"],
     "experimental" : true,
     "debug" : true
 }
