@@ -2,6 +2,7 @@
   docker_container:
     name: "{{ registrator_name }}"
     image: gliderlabs/registrator
+    restart_policy: on-failure
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock
     hostname: "{{ ansible_hostname }}"

@@ -15,14 +15,14 @@
   delegate_to: 127.0.0.1
   tags: [service, tests]
 
-#- name: Pre-deployment tests are run
-#  shell: docker-compose \
-#    -f docker-compose-dev.yml \
-#    run --rm tests
-#  args:
-#    chdir: "{{ repo_dir }}"
-#  delegate_to: 127.0.0.1
-#  tags: [service, tests]
+- name: Pre-deployment tests are run
+  shell: docker-compose \
+    -f docker-compose-dev.yml \
+    run --rm tests
+  args:
+    chdir: "{{ repo_dir }}"
+  delegate_to: 127.0.0.1
+  tags: [service, tests]
 
 - name: Container is pulled
   shell: docker pull \

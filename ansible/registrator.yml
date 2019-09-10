@@ -5,6 +5,8 @@
     - registrator_name: registrator-consul
   roles:
     - common
-    - docker
+    - role: docker
+      vars: 
+        docker_extra: "-H tcp://0.0.0.0:2375"
     - consul
     - registrator

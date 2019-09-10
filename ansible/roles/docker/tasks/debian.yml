@@ -1,19 +1,6 @@
-#- name: Original Debian add Docker repository and update apt cache
-#  apt_repository:
-#    repo: deb https://apt.dockerproject.org/repo ubuntu-{{ debian_version }} main
-#    update_cache: yes
-#    state: present
-#  tags: [docker]
-
-- name: Illia addon - Add Docker GPG key
-  apt_key: 
-    url: https://apt.dockerproject.org/gpg
-    state: present
-  tags: [docker]
-
-- name: Illia addon - Add Docker APT repository
+- name: Debian add Docker repository and update apt cache
   apt_repository:
-    repo: "deb [arch=amd64] https://apt.dockerproject.org/repo ubuntu-xenial main"
+    repo: deb https://apt.dockerproject.org/repo ubuntu-{{ debian_version }} main
     update_cache: yes
     state: present
   tags: [docker]
@@ -28,12 +15,14 @@
 - name: Debian python-pip is present
   apt:
     name: python-pip
+    update_cache: yes
     state: present
     force: yes
   tags: [docker]
 
 - name: Debian docker-py is present
   pip:
+#    executable: pip2
     name: docker
     state: present
   tags: [docker]
@@ -52,26 +41,14 @@
   tags: [docker]
 
 - name: Illia addon - copy configuration for docker daemon
-  copy:
+  template:
     src: "docker.service"
-    dest: "/lib/systemd/system/docker.service"
+    dest: "/etc/systemd/system/docker.service"
   tags: [docker]
-
-#- name: Illia addon - install bridge-utils
-#  apt:
-#    name: bridge-utils
-#    state: present
-#    force: yes
-#  tags: [docker]
-
-- name: Illia addon - allow iptables forwarding
-  iptables:
-    chain: FORWARD
-    jump: ACCEPT
 
 - name: Debian Daemon is reloaded
   command: systemctl daemon-reload
-#  when: copy_result|changed and is_systemd is defined
+  when: copy_result|changed and is_systemd is defined
   tags: [docker]
 
 - name: vagrant user is added to the docker group
@@ -85,5 +62,5 @@
   service:
     name: docker
     state: restarted
-#  when: copy_result|changed or user_result|changed
+  when: copy_result|changed or user_result|changed
   tags: [docker]

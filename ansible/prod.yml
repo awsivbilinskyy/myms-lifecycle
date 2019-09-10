@@ -3,4 +3,7 @@
   serial: 1
   roles:
     - common
-    - docker
+#    - docker
+    - role: docker
+      vars: 
+        docker_extra: "-H tcp://0.0.0.0:2375"

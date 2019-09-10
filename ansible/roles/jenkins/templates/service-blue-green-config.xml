@@ -40,7 +40,7 @@
       <jenkins.branch.BranchSource>
         <source class="jenkins.plugins.git.GitSCMSource" plugin="git@2.4.1">
           <id>926f81ea-4de3-4713-bc5f-506b8a3197cf</id>
-          <remote>https://github.com/awsivbilinskyy/my{{ item.service_name }}.git</remote>
+          <remote>https://github.com/vfarcic/{{ item.service_name }}.git</remote>
           <credentialsId></credentialsId>
           <includes>*blue-green*</includes>
           <excludes></excludes>

@@ -6,11 +6,12 @@ Wants=network-online.target
 Requires=docker.socket
 
 [Service]
+#EnvironmentFile=-/etc/default/docker
 Type=notify
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
-ExecStart=/usr/bin/dockerd --storage-opt dm.basesize=20G -H fd:// -H unix:///var/run/docker.sock
+ExecStart=/usr/bin/dockerd {{ docker_extra }} -H fd://
 ExecReload=/bin/kill -s HUP $MAINPID
 LimitNOFILE=1048576
 # Having non-zero Limit*s causes performance problems due to accounting overhead
