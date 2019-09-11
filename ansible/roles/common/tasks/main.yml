@@ -13,9 +13,12 @@
   tags: [common]
 
 - name: Illya - add no_proxy configuration
-  shell: "sed -i 's/no_proxy=\"localhost,/&{{ item.host_ip }},{{ item.host_name }},/g' /etc/environment && source /etc/environment"
+  replace:
+    backup: yes
+    dest: /etc/environment
+    regexp: '^(no_proxy=\"localhost,127.0.0.1(?!.*\b{{ item.host_ip }},{{ item.host_name }}\b).*)(?=")'
+    replace: '\1,{{ item.host_ip }},{{ item.host_name }}'
   with_items: "{{ hosts }}"
-  tags: [common]
 
 - name: Services are not running
   service:

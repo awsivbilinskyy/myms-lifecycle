@@ -1,2 +1,0 @@
-# myms-lifecycle
-mybooks-ms
