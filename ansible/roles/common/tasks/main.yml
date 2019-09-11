@@ -1,17 +1,3 @@
-- name: "Illia addon - install latest systemd package"
-  apt:
-    name: systemd
-    state: latest
-    force: yes
-  tags: [common]
-
-- name: "Illia addon - install latest facter package"
-  apt:
-    name: facter
-    state: latest
-    force: yes
-  tags: [common]
-
 - name: JQ is present
   apt:
     name: jq
@@ -26,6 +12,14 @@
   with_items: "{{ hosts }}"
   tags: [common]
 
+- name: Illya - add no_proxy configuration
+  replace:
+    backup: yes
+    dest: /etc/environment
+    regexp: '^(no_proxy=\"localhost,127.0.0.1(?!.*\b{{ item.host_ip }},{{ item.host_name }}\b).*)(?=")'
+    replace: '\1,{{ item.host_ip }},{{ item.host_name }}'
+  with_items: "{{ hosts }}"
+
 - name: Services are not running
   service:
     name: "{{ item }}"
@@ -33,4 +27,3 @@
   ignore_errors: yes
   with_items: "{{ obsolete_services }}"
   tags: [common]
-

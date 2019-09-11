@@ -9,7 +9,7 @@ def envs = [
 ]
 
 node("cd") {
-    git "https://github.com/vfarcic/go-demo.git"
+    git "https://github.com/awsivbilinskyy/my/go-demo.git"
 
     stage "pre-dep-tests"
     sh "docker-compose -f docker-compose-test.yml run --rm unit"

@@ -18,6 +18,7 @@
     name: registry
     image: registry:2
     ports: 5000:5000
+    restart_policy: on-failure
     volumes:
       - "{{ registry_host_dir }}:/var/lib/registry/docker/registry"
       - /data/registry/conf:/conf
@@ -28,6 +29,7 @@
     name: registry-mirror
     image: registry:2
     ports: 5001:5000
+    restart_policy: on-failure
     volumes:
       - "{{ registry_host_dir }}-mirror:/var/lib/registry/docker/registry"
       - /data/registry-mirror/conf:/conf

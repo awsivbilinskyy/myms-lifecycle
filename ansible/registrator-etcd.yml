@@ -6,6 +6,8 @@
     - registrator_port: 2379
   roles:
     - common
-    - docker
+    - role: docker
+      vars: 
+        docker_extra: "-H tcp://0.0.0.0:2375"
     - etcd
     - registrator

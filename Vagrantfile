@@ -8,25 +8,18 @@ Vagrant.configure(2) do |config|
     config.vm.synced_folder ".", "/vagrant"
   end
   config.vm.define "cd" do |d|
-### Illia addon - replaced ubuntu 14 on ubuntu 16, due depracation of some
-### d.vm.box = "ubuntu/trusty64"
     d.vm.box = "ubuntu/xenial64"
+    d.disksize.size = "20GB"
     d.vm.hostname = "cd"
     d.vm.network "private_network", ip: "10.100.198.200"
     d.vm.provision :shell, path: "scripts/bootstrap_ansible.sh"
-    d.vm.provision :shell, inline: "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config && \
-    sudo sed -i 's/#   PasswordAuthentication yes/PasswordAuthentication yes/g' /etc/ssh/ssh_config && \
-    sudo systemctl daemon-reload && \
-    sudo service ssh restart && \
-    sudo service sshd restart && \
-    PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/cd.yml -c local"
+    d.vm.provision :shell, inline: "PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/cd.yml -c local"
     d.vm.provider "virtualbox" do |v|
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]            
       v.memory = 2048
     end
   end
   config.vm.define "prod" do |d|
-  ### d.vm.box = "ubuntu/trusty64"
     d.vm.box = "ubuntu/xenial64"
     d.vm.hostname = "prod"
     d.vm.network "private_network", ip: "10.100.198.201"
@@ -36,7 +29,7 @@ Vagrant.configure(2) do |config|
     end
   end
   config.vm.define "logging" do |d|
-    d.vm.box = "ubuntu/trusty64"
+    d.vm.box = "ubuntu/xenial64"
     d.vm.hostname = "logging"
     d.vm.network "private_network", ip: "10.100.198.202"
     d.vm.provider "virtualbox" do |v|
@@ -69,13 +62,7 @@ Vagrant.configure(2) do |config|
     d.vm.box_url = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-vagrant.box"
     d.vm.hostname = "swarm-master"
     d.vm.network "private_network", ip: "10.100.192.200"
-####### Illya - added ability of password authentithications beetween swarm servers
-    d.vm.provision :shell, inline: "sudo apt-get install -y python && \
-    sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config && \
-    sudo sed -i 's/#   PasswordAuthentication yes/PasswordAuthentication yes/g' /etc/ssh/ssh_config && \
-    sudo systemctl daemon-reload && \
-    sudo service ssh restart && \
-    sudo service sshd restart"
+    d.vm.provision :shell, inline: "sudo apt-get install -y python"
     d.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
@@ -86,13 +73,7 @@ Vagrant.configure(2) do |config|
       d.vm.box_url = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-vagrant.box"
       d.vm.network "private_network", ip: "10.100.192.20#{i}"
       d.vm.hostname = "swarm-node-#{i}"
-####### Illya - added ability of password authentithications beetween swarm servers
-      d.vm.provision :shell, inline: "sudo apt-get install -y python && \
-      sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config && \
-      sudo sed -i 's/#   PasswordAuthentication yes/PasswordAuthentication yes/g' /etc/ssh/ssh_config && \
-      sudo systemctl daemon-reload && \
-      sudo service ssh restart && \
-      sudo service sshd restart"
+      d.vm.provision :shell, inline: "sudo apt-get install -y python"
       d.vm.provider "virtualbox" do |v|
         v.memory = 1536
         v.cpus = 1

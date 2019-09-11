@@ -7,5 +7,4 @@ node("cd") {
     flow.buildService(serviceName, registryIpPort)
     flow.deploy(serviceName, prodIp)
     flow.updateProxy(serviceName, "prod")
-    flow.runTests(serviceName, "integ", "-e DOMAIN=http://${proxyIp}")
 }
