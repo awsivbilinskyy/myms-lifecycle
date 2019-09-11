@@ -22,6 +22,7 @@
 
 - name: Debian docker-py is present
   pip:
+    executable: pip
     name: docker
     state: present
   tags: [docker]

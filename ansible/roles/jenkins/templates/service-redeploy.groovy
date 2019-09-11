@@ -10,7 +10,7 @@ node("cd") {
     def instances = flow.getInstances(serviceName, swarmIp)
 
     deleteDir()
-    git url: "https://github.com/vfarcic/${serviceName}.git"
+    git url: "https://github.com/awsivbilinskyy/my/${serviceName}.git"
     try {
         flow.provision(swarmPlaybook)
         flow.provision(proxyPlaybook)

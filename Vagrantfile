@@ -9,6 +9,7 @@ Vagrant.configure(2) do |config|
   end
   config.vm.define "cd" do |d|
     d.vm.box = "ubuntu/xenial64"
+    d.disksize.size = "20GB"
     d.vm.hostname = "cd"
     d.vm.network "private_network", ip: "10.100.198.200"
     d.vm.provision :shell, path: "scripts/bootstrap_ansible.sh"
