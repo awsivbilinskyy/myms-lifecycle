@@ -5,3 +5,9 @@
 /registry-mirror
 *.log
 *.retry
+demo_*
+*/demo_*
+*/*/demo_*
+*/*/*/demo_*
+*/*/*/*/demo_*
+*/*/*/*/*/demo_*
