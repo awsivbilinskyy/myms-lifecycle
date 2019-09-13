@@ -14,6 +14,7 @@ Vagrant.configure(2) do |config|
     d.vm.network "private_network", ip: "10.100.198.200"
     d.vm.provision :shell, path: "scripts/bootstrap_ansible.sh"
     d.vm.provision :shell, inline: "PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/cd.yml -c local"
+    d.vm.provision :shell, path: "scripts/reconfigure_docker.sh"
     d.vm.provider "virtualbox" do |v|
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]            
       v.memory = 2048
@@ -62,7 +63,12 @@ Vagrant.configure(2) do |config|
     d.vm.box_url = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-vagrant.box"
     d.vm.hostname = "swarm-master"
     d.vm.network "private_network", ip: "10.100.192.200"
-    d.vm.provision :shell, inline: "sudo apt-get install -y python"
+    d.vm.provision :shell, inline: "sudo apt-get install -y python && \
+    sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config && \
+    sudo sed -i 's/#   PasswordAuthentication yes/PasswordAuthentication yes/g' /etc/ssh/ssh_config && \
+    sudo systemctl daemon-reload && \
+    sudo service ssh restart && \
+    sudo service sshd restart"
     d.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
@@ -73,7 +79,12 @@ Vagrant.configure(2) do |config|
       d.vm.box_url = "http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-vagrant.box"
       d.vm.network "private_network", ip: "10.100.192.20#{i}"
       d.vm.hostname = "swarm-node-#{i}"
-      d.vm.provision :shell, inline: "sudo apt-get install -y python"
+      d.vm.provision :shell, inline: "sudo apt-get install -y python && \
+      sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config && \
+      sudo sed -i 's/#   PasswordAuthentication yes/PasswordAuthentication yes/g' /etc/ssh/ssh_config && \
+      sudo systemctl daemon-reload && \
+      sudo service ssh restart && \
+      sudo service sshd restart"
       d.vm.provider "virtualbox" do |v|
         v.memory = 1536
         v.cpus = 1

@@ -2,6 +2,7 @@
   file:
     path: "{{ item.path }}"
     owner: "{{ item.owner }}"
+    mode: 0777
     recurse: yes
     state: directory
   with_items:

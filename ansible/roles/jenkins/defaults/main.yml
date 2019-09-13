@@ -9,7 +9,7 @@ configs: [
   { src: "swarm-master-config.xml", dir: "/data/jenkins/nodes/swarm-master", file: "config.xml", mode: "0777" },
   { src: "LogParserPublisher.xml", dir: "/data/jenkins", file: "hudson.plugins.logparser.LogParserPublisher.xml", mode: "0777" },
   { src: "parsing_rules", dir: "/data/jenkins", file: "parsing_rules", mode: "0777" },
-  { src: "scriptApproval.xml", dir: "/data/jenkins", file: "scriptApproval.xml", mode: "0644" }
+  { src: "scriptApproval.xml", dir: "/data/jenkins", file: "scriptApproval.xml", mode: "0777" }
 ]
 
 jobs: [
