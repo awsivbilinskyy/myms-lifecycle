@@ -138,7 +138,7 @@ Start the job to deploy the books-ms application with health self-checks http://
 
 verify through Consul the results http://10.100.192.200:8500/ui/#/dc1/services/books-ms
 
-connect to swarm-master node and stop nginx container
+connect to swarm-master node and stop nginx container which will cause books-ms application to fail
 ```
 exit;
 
@@ -150,6 +150,8 @@ vagrant ssh cd
 
 curl 10.100.192.200/api/v1/books
 ```
+after few minutes check the output of redeployment job which was triggered when books-ms application failed one of the checks
+http://10.100.198.200:8080/job/service-redeploy/lastBuild/console
 
 
 ----------------------------------------------------------------------------------
