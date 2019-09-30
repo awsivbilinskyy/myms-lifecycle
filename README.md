@@ -152,7 +152,14 @@ curl 10.100.192.200/api/v1/books
 ```
 after few minutes check the output of redeployment job which was triggered when books-ms application failed one of the checks
 http://10.100.198.200:8080/job/service-redeploy/lastBuild/console
+and check from the console 
+```
+curl -I 10.100.192.200/api/v1/books
 
+export DOCKER_HOST=tcp://10.100.192.200:2375
+
+docker rm -f $(docker ps --filter name=booksms --format "{{.ID}}")
+```
 
 ----------------------------------------------------------------------------------
 next chapter
