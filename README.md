@@ -28,7 +28,7 @@ Automating Blue-Green Deployment
 Swarm Cluster Blue-Green deployment with Jenkins jobs
 ----------------------------------------------------------------------------------
 (Book Chapter: "Clustering And Scaling Services: Automating Deployment With Docker Swarm and Ansible")
-----------------------------------------------------------------------------------
+
 Start VM's for a cluster with cd (node for provision) swarm-master and two swarm worker nodes
 ```
 vagrant up cd swarm-master swarm-node-1 swarm-node-2
@@ -43,11 +43,7 @@ ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod
 ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod
 ansible-playbook /vagrant/ansible/jenkins.yml -c local
 ```
-Verify Jenkins console and jobs provisioned with playbooks above with link http://10.100.198.200:8080, launch the job "books-ms-swarm" (link on job http://10.100.198.200:8080/job/books-ms-swarm/ ) with "Scan Mutlibranch Pipeline Now" bottun to start the automatic deployment, the job does the next: 
-- job creates an images of books-ms application;
-- pulls image into local registry;
-- deploys application on nodes of swarm cluster;
-
+Open Jenkins console and launch the job "books-ms-swarm" (link on job http://10.100.198.200:8080/job/books-ms-swarm/ ) with "Scan Mutlibranch Pipeline Now" bottun to start the Blue deployment.
 After succesful completition of the job, to checkout swarm cluster and application deployment from cd node, execute the follows:
 ```
 export DOCKER_HOST=tcp://10.100.192.200:2375
@@ -87,6 +83,32 @@ verify the data were successfuly saved by URL http://10.100.192.200/api/v1/books
 ```
 curl 10.100.192.200/api/v1/books | jq '.'
 ```
+Run Jenkins job "books-ms-swarm" http://10.100.198.200:8080/job/books-ms-swarm/ once more to get Green Deployment and after completition verify the result:
+```
+docker ps -a --filter name=books --format "table {{.Names}}\t{{.Status}}" && \
+curl 10.100.192.200/api/v1/books | jq '.'
+```
+should return:
+```
+NAMES                              STATUS
+swarm-node-1/booksms_app-green_1   Up 56 minutes
+swarm-node-2/booksms_app-blue_1    Exited (137) 55 minutes ago
+swarm-node-1/books-ms-db           Up 2 hours
+
+[
+  {
+    "_id": 1,
+    "title": "My First Book",
+    "author": "John Doe"
+  },
+  {
+    "_id": 2,
+    "title": "My Second Book",
+    "author": "John Doe"
+  }
+]
+```
+with Green deployment running, while Blue exited, with the data we've inputed for Blue deployment
 
 ----------------------------------------------------------------------------------
 Self-Healing Systems
