@@ -6,7 +6,7 @@ My tryouts to refresh "Devops 2.0 toolkit" book repository to make things work a
 
 Prerequisits for host VM (for Ubuntu 16.04 host)
 ----------------------------------------------------------------------------------
-install vagrant and some vagrant plugins 
+install vagrant and some vagrant plugins:
 ```
 vagrant plugin install vagrant-cachier
 vagrant plugin install disksize
@@ -14,7 +14,7 @@ vagrant plugin install proxyconf
 vagrant plugin install proxyconf
 ```
 
-Clone my repositories from github and navigate to a working directory
+Clone my repositories from github and navigate to a working directory:
 ```
 git clone https://github.com/awsivbilinskyy/myms-lifecycle.git
 cd myms-lifecycle
@@ -23,11 +23,12 @@ cd myms-lifecycle
 ----------------------------------------------------------------------------------
 Automating Blue-Green Deployment
 ----------------------------------------------------------------------------------
+(Book Chapter: "")
 
 ----------------------------------------------------------------------------------
 Swarm Cluster Blue-Green deployment with Jenkins jobs
 ----------------------------------------------------------------------------------
-(Book Chapter: "Clustering And Scaling Services: Automating Deployment With Docker Swarm and Ansible")
+(Book Chapter: "Clustering And Scaling Services: Automating Deployment With Docker Swarm and Ansible", page 291)
 
 Start VM's for a cluster with cd (node for provision) swarm-master and two swarm worker nodes
 ```
@@ -37,7 +38,7 @@ Connect to provision node
 ```
 vagrant ssh cd
 ```
-Start playbooks to proviosion swarm nodes and container with Jenkins master and slaves 
+Start playbooks to provision swarm nodes and container with Jenkins master and slaves 
 ```
 ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod
 ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod
@@ -108,13 +109,50 @@ swarm-node-1/books-ms-db           Up 2 hours
   }
 ]
 ```
-with Green deployment running, while Blue exited, with the data we've inputed for Blue deployment
+with Green deployment running, while Blue exited, with the data we've inputed for Blue deployment.
+
+For cleaning up the environment exit the cd VM, and use cleanup.sh script.
 
 ----------------------------------------------------------------------------------
 Self-Healing Systems
 ----------------------------------------------------------------------------------
+(Book Chapter: "Self-Healing Systems: Self-healing with Docker, ConsulWatches, and Jenkins", page 312)
+Start VM's for a cluster with cd (node for provision) swarm-master and two swarm worker nodes
+```
+vagrant up cd swarm-master swarm-node-1 swarm-node-2
+```
+Connect to provision node
+```
+vagrant ssh cd
+```
+Start playbooks to provision swarm nodes Jenkins master and slaves for service healing
+```
+ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod
+ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod
+ansible-playbook /vagrant/ansible/jenkins.yml --extra-vars "main_job_src=service-healing-config.xml" -c local
+ansible-playbook /vagrant/ansible/swarm-healing.yml -i /vagrant/ansible/hosts/prod
+```
+Open http://10.100.192.200:8500/ui/#/dc1/nodes/swarm-master to verify the new checks were created.
+
+Start the job to deploy the books-ms application with health self-checks http://10.100.198.200:8080/job/books-ms/ 
+
+verify through Consul the results http://10.100.192.200:8500/ui/#/dc1/services/books-ms
+
+connect to swarm-master node and stop nginx container
+```
+exit;
+
+vagrant ssh swarm-master
+
+docker stop nginx
+
+vagrant ssh cd
+
+curl 10.100.192.200/api/v1/books
+```
 
 
 ----------------------------------------------------------------------------------
 next chapter
 ----------------------------------------------------------------------------------
+(Book Chapter: "")
