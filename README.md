@@ -1,5 +1,8 @@
-Refreshed devops2.0 toolkit repo to run builds with Ubuntu 16.04 xenial 64 images and some newer versions of software
+My tryouts to refresh "Devops 2.0 toolkit" book repository to make things work again:
 ===============================================================================
+- updated image used in book tutorials from ubuntu/trusty64 to ubuntu/xenial64;
+- changed some deprecated software packages versions were it was possible;
+- changed some stuff in Ansible playbooks, considering things mentioned above;
 
 Prerequisits for host VM (for Ubuntu 16.04 host)
 ----------------------------------------------------------------------------------
@@ -10,6 +13,13 @@ vagrant plugin install disksize
 vagrant plugin install proxyconf
 vagrant plugin install proxyconf
 ```
+
+Clone my repositories from github and navigate to a working directory
+```
+git clone https://github.com/awsivbilinskyy/myms-lifecycle.git
+cd myms-lifecycle
+```
+
 ----------------------------------------------------------------------------------
 Automating Blue-Green Deployment
 ----------------------------------------------------------------------------------
@@ -62,8 +72,7 @@ curl 10.100.192.200:8500/v1/catalog/service/books-ms-blue | jq '.'
 curl 10.100.192.200:8500/v1/kv/books-ms/color?raw
 curl 10.100.192.200:8500/v1/kv/books-ms/instances?raw
 ```
-or open in browser http://10.100.192.200:8500/v1/catalog/service/books-ms-blue.
-To verify registered services status in Consul http://10.100.192.200:8500/ui/#/dc1/services.
+or open in browser http://10.100.192.200:8500/v1/catalog/service/books-ms-blue. To verify registered services status in Consul ui http://10.100.192.200:8500/ui/#/dc1/services.
 
 ----------------------------------------------------------------------------------
 Self-Healing Systems
