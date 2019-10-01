@@ -23,13 +23,14 @@
   register: templates
   tags: [consul]
 
+### modified by Illya - changed Consul client IP from 0.0.0.0 due errors in Consul logs 
 - name: Is running
   shell: "nohup consul agent {{ consul_extra }} \
     -data-dir {{ data_dir }} \
     -config-dir {{ config_dir }} \
     -node={{ ansible_hostname }} \
     -bind={{ ip }} \
-    -client=0.0.0.0 \
+    -client={{ ip }} \
     >{{ logs_dir }}/consul.log 2>&1 &"
   tags: [consul]
 
