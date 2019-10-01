@@ -1,8 +1,9 @@
 My tryouts to refresh "Devops 2.0 toolkit" book repository to make things work again:
 ===============================================================================
 - updated image used in book tutorials from ubuntu/trusty64 to ubuntu/xenial64;
-- changed some deprecated software packages versions were it was possible;
+- changed some deprecated versions of software packages were it was possible;
 - changed some stuff in Ansible playbooks, considering things mentioned above;
+- changed some features in Jenkins pipelines (some original jobs)
 
 Prerequisits for host VM (for Ubuntu 16.04 host)
 ----------------------------------------------------------------------------------
@@ -21,12 +22,12 @@ cd myms-lifecycle
 ```
 
 ----------------------------------------------------------------------------------
-Automating Blue-Green Deployment
+Automating Blue-Green Deployment 
 ----------------------------------------------------------------------------------
 (Book Chapter: "")
 
 ----------------------------------------------------------------------------------
-Swarm Cluster Blue-Green deployment with Jenkins jobs
+Swarm Cluster Blue-Green deployment with Jenkins jobs (verified)
 ----------------------------------------------------------------------------------
 (Book Chapter: "Clustering And Scaling Services: Automating Deployment With Docker Swarm and Ansible", page 291)
 
@@ -114,9 +115,10 @@ with Green deployment running, while Blue exited, with the data we've inputed fo
 For cleaning up the environment exit the cd VM, and use cleanup.sh script.
 
 ----------------------------------------------------------------------------------
-Self-Healing Systems
+Self-Healing Systems (verified)
 ----------------------------------------------------------------------------------
 (Book Chapter: "Self-Healing Systems: Self-healing with Docker, ConsulWatches, and Jenkins", page 312)
+
 Start VM's for a cluster with cd (node for provision) swarm-master and two swarm worker nodes
 ```
 vagrant up cd swarm-master swarm-node-1 swarm-node-2
@@ -128,23 +130,28 @@ vagrant ssh cd
 Start playbooks to provision swarm nodes Jenkins master and slaves for service healing
 ```
 ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod
+
 ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod
+
 ansible-playbook /vagrant/ansible/jenkins.yml --extra-vars "main_job_src=service-healing-config.xml" -c local
+
 ansible-playbook /vagrant/ansible/swarm-healing.yml -i /vagrant/ansible/hosts/prod
 ```
 Open http://10.100.192.200:8500/ui/#/dc1/nodes/swarm-master to verify the new checks were created.
 
 Start the job to deploy the books-ms application with health self-checks http://10.100.198.200:8080/job/books-ms/ 
 
-verify through Consul the results http://10.100.192.200:8500/ui/#/dc1/services/books-ms
+To verify the results of job execution through Consul follow the link http://10.100.192.200:8500/ui/#/dc1/services/books-ms
 
-connect to swarm-master node and stop nginx container which will cause books-ms application to fail
+Connect to swarm-master node and stop nginx container which will cause books-ms application to fail, which will triger the redeployment job to fix application state
 ```
 exit;
 
 vagrant ssh swarm-master
 
 docker stop nginx
+
+exit;
 
 vagrant ssh cd
 
