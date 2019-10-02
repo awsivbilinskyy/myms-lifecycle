@@ -129,6 +129,7 @@ vagrant ssh cd
 ```
 Start playbooks to provision swarm nodes Jenkins master and slaves for service healing
 ```
+### on cd node ###
 ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod
 
 ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod
@@ -136,6 +137,8 @@ ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hos
 ansible-playbook /vagrant/ansible/jenkins.yml --extra-vars "main_job_src=service-healing-config.xml" -c local
 
 ansible-playbook /vagrant/ansible/swarm-healing.yml -i /vagrant/ansible/hosts/prod
+
+exit;
 ```
 Open http://10.100.192.200:8500/ui/#/dc1/nodes/swarm-master to verify the new checks were created.
 
@@ -145,14 +148,14 @@ To verify the results of job execution through Consul follow the link http://10.
 
 Connect to swarm-master node and stop nginx container which will cause books-ms application to fail, which will triger the redeployment job to fix application state
 ```
-exit;
-
 vagrant ssh swarm-master
 
+### on swarm-master node 
 docker stop nginx
 
 exit;
 
+### back to cd node
 vagrant ssh cd
 
 curl 10.100.192.200/api/v1/books
@@ -176,6 +179,7 @@ docker ps --filter name=books --format "table {{.Names}}"
 
 curl -I swarm-master/api/v1/books
 ```
+should return HTTP responce 200 
 
 ----------------------------------------------------------------------------------
 next chapter
