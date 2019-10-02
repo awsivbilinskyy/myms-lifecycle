@@ -41,5 +41,5 @@
 
 - name: Consul is restarted
   shell: killall -HUP consul
-  when: files|changed or templates|changed
+  #when: files|changed or templates|changed
   tags: [consul]

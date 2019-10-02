@@ -159,13 +159,22 @@ curl 10.100.192.200/api/v1/books
 ```
 after few minutes check the output of redeployment job which was triggered when books-ms application failed one of the checks
 http://10.100.198.200:8080/job/service-redeploy/lastBuild/console
-and check from the console 
+when service-redoploy job and has finished check application status from cd node :
 ```
 curl -I 10.100.192.200/api/v1/books
+```
 
+Now we triggered the same job but for the case when container with application is completely removed, run from cd node:  
+```
 export DOCKER_HOST=tcp://10.100.192.200:2375
 
 docker rm -f $(docker ps --filter name=booksms --format "{{.ID}}")
+```
+after few minutes check http://10.100.198.200:8080/job/service-redeploy/lastBuild/console, the job redeployed application, to verify this from the console:
+```
+docker ps --filter name=books --format "table {{.Names}}"
+
+curl -I swarm-master/api/v1/books
 ```
 
 ----------------------------------------------------------------------------------
