@@ -31,7 +31,7 @@
 mesos_master_ip=10.100.197.201
 
 [prod]
-10.100.198.201 consul_extra="-server -bootstrap -ui" ansible_ssh_pass=vagrant ansible_ssh_user=vagrant
+10.100.198.201 consul_extra="-server -bootstrap -ui" ansible_ssh_pass=vagrant ansible_ssh_user=vagrant ip=10.100.198.201
 
 [registry]
 10.100.198.200 ansible_ssh_pass=vagrant ansible_ssh_user=vagrant
