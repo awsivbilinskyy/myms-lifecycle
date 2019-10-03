@@ -209,19 +209,57 @@ Centralized Logging and Monitoring (currently working)
 Start environment VM's from host machine:
 ```
 vagrant up cd prod logging
-
-vagrant ssh cd
 ```
 
 on cd node run the next playbook to provision monitoring toolset:
 ```
+vagrant ssh cd
+
 ansible-playbook /vagrant/ansible/elk.yml -i /vagrant/ansible/hosts/prod --extra-vars "logstash_config=file.conf"
+
+exit;
 ```
-* notice from time to time this may fail with error
-Failed to import the required Python library (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)
-just restart the playbook once more
+* notice from time to time this may fail with an error:
+"Failed to import the required Python library (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)"
 
+to fix this just restart the playbook once more
 
+connect to logging node and fill in and checkout the entries for logstash :
+```
+vagrant ssh logging
+
+echo "my first log entry" >/data/logstash/logs/my.log && \
+echo "my second log entry" >>/data/logstash/logs/my.log && \
+echo "my third log entry" >>/data/logstash/logs/my.log
+
+docker logs logstash
+```
+and verify those events displayed in Kibana http://10.100.198.202:5601 (note: first time index "logstash-*" needs to be created).
+
+copy sample apache log into logstash:
+```
+cat /tmp/apache.log >>/data/logstash/logs/apache.log
+
+docker logs logstash
+```
+
+replace logstash conffile with filters
+```
+sudo cp /data/logstash/conf/file-with-filters.conf /data/logstash/conf/file.conf && \
+docker restart logstash
+
+cat /tmp/apache2.log >>/data/logstash/logs/apache.log && \
+docker restart logstash
+```
+
+```
+ansible-playbook /vagrant/ansible/elk.yml -i /vagrant/ansible/hosts/prod --extra-vars "logstash_config=beats.conf"
+
+ansible-playbook /vagrant/ansible/prod3.yml -i /vagrant/ansible/hosts/prod
+
+docker -H tcp://10.100.198.202:2375 logs logstash
+```
+ansible-playbook /vagrant/ansible/elk.yml -i /vagrant/ansible/hosts/prod --extra-vars "logstash_config=syslog.conf"
 
 ----------------------------------------------------------------------------------
 next chapter

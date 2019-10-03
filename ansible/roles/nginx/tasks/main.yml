@@ -44,7 +44,7 @@
 
 - name: Info is sent to Consul
   uri:
-    url: http://localhost:8500/v1/kv/proxy/ip
+    url: "http://{{ ip }}:8500/v1/kv/proxy/ip"
     method: PUT
     body: "{{ ip }}"
   ignore_errors: yes
