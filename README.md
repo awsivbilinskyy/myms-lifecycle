@@ -115,7 +115,7 @@ with Green deployment running, while Blue exited, with the data we've inputed fo
 For cleaning up the environment exit the cd VM, and use cleanup.sh script.
 
 ----------------------------------------------------------------------------------
-Self-Healing Systems (verified)
+Self-Healing Systems - redeployment, scaling, descaling jobs (verified)
 ----------------------------------------------------------------------------------
 (Book Chapter: "Self-Healing Systems: Self-healing with Docker, ConsulWatches, and Jenkins", page 312)
 
@@ -183,6 +183,21 @@ docker ps --filter name=books --format "table {{.Names}}"
 curl -I swarm-master/api/v1/books
 ```
 should return HTTP responce 200 
+
+For scaling application run http://10.100.198.200:8080/job/books-ms-scale/ parametrised job with desired scale count set as paramter (default 2). This will redeploy the service. To verify this run the next:
+```
+export DOCKER_HOST=tcp://10.100.192.200:2375
+
+docker ps --filter name=books --format "table {{.Names}}"
+
+curl 10.100.192.200:8500/v1/kv/books-ms/instances?raw
+```
+For descaling application run http://10.100.198.200:8080/job/books-ms-descale parametrised job with desired count of instances (default -2). To verify this run the next:
+```
+docker ps --filter name=books --format "table {{.Names}}"
+
+curl 10.100.192.200:8500/v1/kv/books-ms/instances?raw
+```
 
 ----------------------------------------------------------------------------------
 Preventive Healing Through Scheduled Scaling and Descaling
