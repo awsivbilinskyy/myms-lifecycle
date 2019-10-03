@@ -197,12 +197,30 @@ For descaling application run http://10.100.198.200:8080/job/books-ms-descale pa
 docker ps --filter name=books --format "table {{.Names}}"
 
 curl 10.100.192.200:8500/v1/kv/books-ms/instances?raw
+
+exit;
 ```
 
 ----------------------------------------------------------------------------------
-Preventive Healing Through Scheduled Scaling and Descaling
+Centralized Logging and Monitoring (currently working)
 ----------------------------------------------------------------------------------
-(Book Chapter: "Self-Healing Systems: Preventive Healing Through Scheduled Scaling and Descaling", page 337)
+(Book Chapter: "Centralized Logging and Monitoring: ", page 347)
+
+Start environment VM's from host machine:
+```
+vagrant up cd prod logging
+
+vagrant ssh cd
+```
+
+on cd node run the next playbook to provision monitoring toolset:
+```
+ansible-playbook /vagrant/ansible/elk.yml -i /vagrant/ansible/hosts/prod --extra-vars "logstash_config=file.conf"
+```
+* notice from time to time this may fail with error
+Failed to import the required Python library (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)
+just restart the playbook once more
+
 
 
 ----------------------------------------------------------------------------------
