@@ -23,7 +23,19 @@
   register: templates
   tags: [consul]
 
-### modified by Illya - changed Consul client IP from 0.0.0.0 due errors in Consul logs 
+### Illya - adding this step allows  checks
+#- name: Consul client reconfigured on swarm-master for self-healing
+#  shell: "nohup consul agent -server -bootstrap -ui \
+#  -data-dir /data/consul/data \
+#  -config-dir /data/consul/config \
+#  -node=swarm-master \
+#  -bind=10.100.192.200 \
+#  -client=10.100.192.200 >/data/consul/logs/consul.log 2>&1 &"
+#  become: yes
+#  when: consul_server_ip is undefined
+#  tags: [consul]
+
+### Illya - changed Consul client IP params from 0.0.0.0 due errors in Consul logs 
 - name: Is running
   shell: "nohup consul agent {{ consul_extra }} \
     -data-dir {{ data_dir }} \
@@ -32,14 +44,16 @@
     -bind={{ ip }} \
     -client={{ ip }} \
     >{{ logs_dir }}/consul.log 2>&1 &"
+#  when: consul_server_ip is defined
   tags: [consul]
 
-- name: Has joined
-  shell: consul join {{ consul_server_ip }}
-  when: consul_server_ip is defined
-  tags: [consul]
+#- name: Has joined
+#  shell: consul join {{ consul_server_ip }}
+#  when: consul_server_ip is defined
+#  tags: [consul]
 
 - name: Consul is restarted
   shell: killall -HUP consul
+ # when: consul_server_ip is defined
   #when: files|changed or templates|changed
   tags: [consul]

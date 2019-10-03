@@ -130,6 +130,7 @@ vagrant ssh cd
 Start playbooks to provision swarm nodes Jenkins master and slaves for service healing
 ```
 ### on cd node ###
+
 ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod
 
 ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod
@@ -151,11 +152,13 @@ Connect to swarm-master node and stop nginx container which will cause books-ms 
 vagrant ssh swarm-master
 
 ### on swarm-master node 
+
 docker stop nginx
 
 exit;
 
 ### back to cd node
+
 vagrant ssh cd
 
 curl 10.100.192.200/api/v1/books
@@ -180,6 +183,12 @@ docker ps --filter name=books --format "table {{.Names}}"
 curl -I swarm-master/api/v1/books
 ```
 should return HTTP responce 200 
+
+----------------------------------------------------------------------------------
+Preventive Healing Through Scheduled Scaling and Descaling
+----------------------------------------------------------------------------------
+(Book Chapter: "Self-Healing Systems: Preventive Healing Through Scheduled Scaling and Descaling", page 337)
+
 
 ----------------------------------------------------------------------------------
 next chapter
