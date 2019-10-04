@@ -12,6 +12,7 @@
     name: nginx
     state: started
     ports: "{{ ports }}"
+    restart_policy: on-failure
     volumes: "{{ volumes }}"
   when: not log_to_syslog is defined
   tags: [nginx]
@@ -22,6 +23,7 @@
     name: nginx
     state: started
     ports: "{{ ports }}"
+    restart_policy: on-failure
     volumes: "{{ volumes }}"
     log_driver: syslog
     log_opt:
