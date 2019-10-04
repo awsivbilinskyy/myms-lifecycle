@@ -29,9 +29,31 @@ next chapter
 ----------------------------------------------------------------------------------
 (Book Chapter: "")
 
+----------------------------------------------------------------------------------
+Automating Implementation of the Deployment Pipeline
+----------------------------------------------------------------------------------
+(Book Chapter: "Automating Implementation of the Deployment Pipeline: ")
+
 
 ----------------------------------------------------------------------------------
-Automating Blue-Green Deployment (verified)
+Continuous Integration (CI), Delivery and Deployment (CD) Tools
+----------------------------------------------------------------------------------
+(Book Chapter: "Continuous Integration (CI), Delivery and Deployment (CD) Tools: Jenkins", page 196)
+
+Start VM's for Jenkins setup and connect to cd node:
+```
+vagrant up cd prod
+
+vagrant ssh cd
+```
+setup and configure Jenkins node and master nodes:
+```
+ansible-playbook /vagrant/ansible/jenkins-node.yml -i /vagrant/ansible/hosts/prod
+ansible-playbook /vagrant/ansible/jenkins.yml -c local
+```
+
+----------------------------------------------------------------------------------
+Automating Blue-Green Deployment (not verified)
 ----------------------------------------------------------------------------------
 (Book Chapter: "Blue-Green Deployment: Automating the Blue-Green Deployment with Jenkins Workflow", page 244)
 
@@ -50,9 +72,7 @@ ansible-playbook /vagrant/ansible/jenkins-node.yml -i /vagrant/ansible/hosts/pro
 ansible-playbook /vagrant/ansible/jenkins.yml -c local
 ```
 * notice: from time to time this may fail with an error:
-"Failed to import the required Python library (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)"
-
-to fix this just restart the playbook once more
+"Failed to import the required Python library (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)" - to fix this just restart the playbook once more
 
 open Jenkins job http://10.100.198.200:8080/job/books-ms-blue-green/ ,click the "Scan Multi-branch Pipeline Now" link for running automated blue-green deployment.
 At the first run it will deploy blue release. To verify what release is actually deployed from cd node execute the next: 
@@ -264,9 +284,7 @@ ansible-playbook /vagrant/ansible/elk.yml -i /vagrant/ansible/hosts/prod --extra
 exit;
 ```
 * notice from time to time this may fail with an error:
-"Failed to import the required Python library (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)"
-
-to fix this just restart the playbook once more
+"Failed to import the required Python library (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)" - to fix this just restart the playbook once more
 
 connect to logging node and fill in and checkout the entries for logstash :
 ```
