@@ -25,7 +25,13 @@ cd myms-lifecycle
 ```
 
 ----------------------------------------------------------------------------------
-Automating Blue-Green Deployment 
+next chapter
+----------------------------------------------------------------------------------
+(Book Chapter: "")
+
+
+----------------------------------------------------------------------------------
+Automating Blue-Green Deployment (verified)
 ----------------------------------------------------------------------------------
 (Book Chapter: "Blue-Green Deployment: Automating the Blue-Green Deployment with Jenkins Workflow", page 244)
 
@@ -39,10 +45,15 @@ run playbooks to provision all that will be needed for Blue-Green deployment:
 ```
 ansible-playbook /vagrant/ansible/prod2.yml -i /vagrant/ansible/hosts/prod
 
-ansible-playbook /vagrant/ansible/jenkins-node.yml -i /vagrant/ansible/hosts/prod
+ansible-playbook /vagrant/ansible/jenkins-node.yml -i /vagrant/ansible/hosts/prod 
 
 ansible-playbook /vagrant/ansible/jenkins.yml -c local
 ```
+* notice: from time to time this may fail with an error:
+"Failed to import the required Python library (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)"
+
+to fix this just restart the playbook once more
+
 open Jenkins job http://10.100.198.200:8080/job/books-ms-blue-green/ ,click the "Scan Multi-branch Pipeline Now" link for running automated blue-green deployment.
 At the first run it will deploy blue release. To verify what release is actually deployed from cd node execute the next: 
 ```
@@ -235,7 +246,7 @@ exit;
 ```
 
 ----------------------------------------------------------------------------------
-Centralized Logging and Monitoring (currently working)
+Centralized Logging and Monitoring (verified)
 ----------------------------------------------------------------------------------
 (Book Chapter: "Centralized Logging and Monitoring: ", page 347)
 
@@ -294,7 +305,3 @@ docker -H tcp://10.100.198.202:2375 logs logstash
 ```
 ansible-playbook /vagrant/ansible/elk.yml -i /vagrant/ansible/hosts/prod --extra-vars "logstash_config=syslog.conf"
 
-----------------------------------------------------------------------------------
-next chapter
-----------------------------------------------------------------------------------
-(Book Chapter: "")
