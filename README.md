@@ -7,7 +7,7 @@ My tryouts to refresh "Devops 2.0 toolkit" book repository to make things work a
 
 Prerequisits for host VM (for Ubuntu 16.04 host)
 ----------------------------------------------------------------------------------
-install vagrant and some vagrant plugins:
+install vagrant and required vagrant plugins on host machine:
 ```
 vagrant plugin install vagrant-cachier
 vagrant plugin install disksize
@@ -17,14 +17,47 @@ vagrant plugin install proxyconf
 
 Clone my repositories from github and navigate to a working directory:
 ```
+git clone https://github.com/awsivbilinskyy/mybooks-ms.git 
+
 git clone https://github.com/awsivbilinskyy/myms-lifecycle.git
+
 cd myms-lifecycle
 ```
 
 ----------------------------------------------------------------------------------
 Automating Blue-Green Deployment 
 ----------------------------------------------------------------------------------
-(Book Chapter: "")
+(Book Chapter: "Blue-Green Deployment: Automating the Blue-Green Deployment with Jenkins Workflow", page 244)
+
+Start VM's for Blue-Green Deployment and connect to cd node:
+```
+vagrant up cd prod
+
+vagrant ssh cd
+```
+run playbooks to provision all that will be needed for Blue-Green deployment:
+```
+ansible-playbook /vagrant/ansible/prod2.yml -i /vagrant/ansible/hosts/prod
+
+ansible-playbook /vagrant/ansible/jenkins-node.yml -i /vagrant/ansible/hosts/prod
+
+ansible-playbook /vagrant/ansible/jenkins.yml -c local
+```
+open Jenkins job http://10.100.198.200:8080/job/books-ms-blue-green/ ,click the "Scan Multi-branch Pipeline Now" link for running automated blue-green deployment.
+At the first run it will deploy blue release. To verify what release is actually deployed from cd node execute the next: 
+```
+export DOCKER_HOST=tcp://10.100.198.201:2375
+
+docker ps -a --filter name=books --format "table {{.Names}}"
+```
+
+```
+curl 10.100.198.201:8500/v1/catalog/services | jq '.'
+
+curl 10.100.198.201:8500/v1/catalog/service/books-ms-blue | jq '.'
+
+curl -I 10.100.198.201/api/v1/books
+```
 
 ----------------------------------------------------------------------------------
 Swarm Cluster Blue-Green deployment with Jenkins jobs (verified)
