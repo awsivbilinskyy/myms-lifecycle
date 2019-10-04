@@ -78,7 +78,7 @@ def updateProxy(serviceName, proxyNode) {
         unstash 'nginx'
         sh "sudo cp nginx-includes.conf /data/nginx/includes/${serviceName}.conf"
         sh "sudo consul-template \
-            -consul 10.100.192.200:8500 \
+            -consul ${prodIp}:8500 \
             -template \"nginx-upstreams.ctmpl:/data/nginx/upstreams/${serviceName}.conf:docker kill -s HUP nginx\" \
             -once"
     }
@@ -125,11 +125,11 @@ def updateBGProxy(serviceName, proxyNode, color) {
         unstash 'nginx'
         sh "sudo cp nginx-includes.conf /data/nginx/includes/${serviceName}.conf"
 //        sh "sudo consul-template -consul 10.100.192.200:8500 \//
-        sh "sudo consul-template -consul localhost:8500 \
+        sh "sudo consul-template -consul ${prodIp}:8500 \
             -template \"nginx-upstreams-${color}.ctmpl:/data/nginx/upstreams/${serviceName}.conf:docker kill -s HUP nginx\" \
             -once"
 //        sh "curl -X PUT -d ${color} http://10.100.192.200:8500/v1/kv/${serviceName}/color"//
-        sh "curl -X PUT -d ${color} http://localhost:8500/v1/kv/${serviceName}/color"
+        sh "curl -X PUT -d ${color} http://${prodIp}:8500/v1/kv/${serviceName}/color"
     }
 }
 
@@ -169,7 +169,7 @@ def updateChecks(serviceName, swarmNode) {
     node(swarmNode) {
         unstash 'consul-check'
      // sh "sudo consul-template -consul 10.100.192.200:8500 \//
-        sh "sudo consul-template -consul localhost:8500 \
+        sh "sudo consul-template -consul ${prodIp}:8500 \
             -template 'consul_check.ctmpl:/data/consul/config/${serviceName}.json:killall -HUP consul' \
             -once"
     }
