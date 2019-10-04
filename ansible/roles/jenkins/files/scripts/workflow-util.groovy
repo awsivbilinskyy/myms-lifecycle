@@ -71,7 +71,7 @@ def deploySwarm(serviceName, swarmIp, color, instances) {
     putInstances(serviceName, swarmIp, instances)
 }
 
-def updateProxy(serviceName, proxyNode) {
+def updateProxy(serviceName, prodIp, proxyNode) {
     stage "Update proxy"
     stash includes: 'nginx-*', name: 'nginx'
     node(proxyNode) {
@@ -118,7 +118,7 @@ def stopBG(serviceName, prodIp, color) {
     }
 }
 
-def updateBGProxy(serviceName, proxyNode, color) {
+def updateBGProxy(serviceName, proxyNode, color, prodIp) {
     stage "Update proxy"
     stash includes: 'nginx-*', name: 'nginx'
     node(proxyNode) {
