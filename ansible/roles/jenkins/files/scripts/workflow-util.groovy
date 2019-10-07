@@ -182,4 +182,12 @@ def putInstances(serviceName, swarmIp, instances) {
         ${swarmIp}:8500/v1/kv/${serviceName}/instances"
 }
 
+def dockerCleanup(proxyNode) {
+    stage "cleanup previous docker data"
+    node(proxyNode) {
+        sh "sudo docker system prune -a -f"
+    }
+
+}
+
 return this;
