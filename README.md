@@ -30,13 +30,13 @@ next chapter
 (Book Chapter: "")
 
 ----------------------------------------------------------------------------------
-Automating Implementation of the Deployment Pipeline
+Automating Implementation of the Deployment Pipeline (needed verification)
 ----------------------------------------------------------------------------------
 (Book Chapter: "Automating Implementation of the Deployment Pipeline: ")
 
 
 ----------------------------------------------------------------------------------
-Continuous Integration (CI), Delivery and Deployment (CD) Tools
+Continuous Integration (CI), Delivery and Deployment (CD) Tools (needed verification)
 ----------------------------------------------------------------------------------
 (Book Chapter: "Continuous Integration (CI), Delivery and Deployment (CD) Tools: Jenkins", page 196)
 
@@ -53,7 +53,7 @@ ansible-playbook /vagrant/ansible/jenkins.yml -c local
 ```
 
 ----------------------------------------------------------------------------------
-Automating Blue-Green Deployment (verified)
+Automating Blue-Green Deployment
 ----------------------------------------------------------------------------------
 (Book Chapter: "Blue-Green Deployment: Automating the Blue-Green Deployment with Jenkins Workflow", page 244)
 
