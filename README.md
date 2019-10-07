@@ -81,7 +81,7 @@ export DOCKER_HOST=tcp://10.100.198.201:2375
 
 docker ps -a --filter name=books --format "table {{.Names}}"
 ```
-
+to verify this from console run:
 ```
 curl 10.100.198.201:8500/v1/catalog/services | jq '.'
 
@@ -89,6 +89,7 @@ curl 10.100.198.201:8500/v1/catalog/service/books-ms-blue | jq '.'
 
 curl -I 10.100.198.201/api/v1/books
 ```
+or you can verify current color of release deployed from Consul ui http://10.100.198.201:8500/ui/#/dc1/kv/books-ms/color/edit
 
 ----------------------------------------------------------------------------------
 Swarm Cluster Blue-Green deployment with Jenkins jobs (verified)

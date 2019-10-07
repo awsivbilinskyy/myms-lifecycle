@@ -185,7 +185,10 @@ def putInstances(serviceName, swarmIp, instances) {
 def dockerCleanup(proxyNode) {
     stage "cleanup previous docker data"
     node(proxyNode) {
+        //sh "sudo du -sh /var/lib/docker"//
+        sh "sudo du -sh /var/lib/docker | awk \'{print (\"docker currently use \"\$1\" of cached data\")}\'"
         sh "sudo docker system prune -a -f"
+        sh "sudo du -sh /var/lib/docker | awk \'{print ( \$1\" docker cached remained after cleanup\")}\'"
     }
 
 }
