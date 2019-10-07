@@ -53,7 +53,7 @@ ansible-playbook /vagrant/ansible/jenkins.yml -c local
 ```
 
 ----------------------------------------------------------------------------------
-Automating Blue-Green Deployment (not verified)
+Automating Blue-Green Deployment (verified)
 ----------------------------------------------------------------------------------
 (Book Chapter: "Blue-Green Deployment: Automating the Blue-Green Deployment with Jenkins Workflow", page 244)
 
