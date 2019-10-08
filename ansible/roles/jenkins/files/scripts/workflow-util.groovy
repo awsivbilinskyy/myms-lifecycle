@@ -101,7 +101,7 @@ def runBGPostIntegrationTests(serviceName, prodIp, proxyIp, proxyNode, currentCo
         runTests(serviceName, "integ", "-e DOMAIN=http://${proxyIp}")
     } catch(e) {
         if (currentColor != "") {
-            updateBGProxy(serviceName, proxyNode, currentColor)
+            updateBGProxy(serviceName, proxyNode, currentColor, prodIp)
         }
         stopBG(serviceName, prodIp, nextColor);
         error("Post-integration tests failed")
@@ -166,7 +166,6 @@ def updateChecks(serviceName, swarmNode, prodIp) {
     stash includes: 'consul_check.ctmpl', name: 'consul-check'
     node(swarmNode) {
         unstash 'consul-check'
-     // sh "sudo consul-template -consul 10.100.192.200:8500 \//
         sh "sudo consul-template -consul ${prodIp}:8500 \
             -template 'consul_check.ctmpl:/data/consul/config/${serviceName}.json:killall -HUP consul' \
             -once"
