@@ -167,8 +167,7 @@ def updateChecks(serviceName, swarmNode, prodIp) {
     node(swarmNode) {
         unstash 'consul-check'
         sh "sudo consul-template -consul ${prodIp}:8500 \
-            -template 'consul_check.ctmpl:/data/consul/config/${serviceName}.json:killall -HUP consul' \
-            -once"
+            -template 'consul_check.ctmpl:/data/consul/config/${serviceName}.json:killall -HUP consul' -once"
     }
 }
 
@@ -181,9 +180,9 @@ def putInstances(serviceName, swarmIp, instances) {
         ${swarmIp}:8500/v1/kv/${serviceName}/instances"
 }
 
-def dockerCleanup(proxyNode) {
+def dockerCleanup(provisionNode) {
     stage "cleanup previous docker data"
-    node(proxyNode) {
+    node(provisionNode) {
         //sh "sudo du -sh /var/lib/docker"//
         sh "sudo du -sh /var/lib/docker | awk \'{print (\"docker currently use \"\$1\" of cached data\")}\'"
         sh "sudo docker system prune -a -f"
