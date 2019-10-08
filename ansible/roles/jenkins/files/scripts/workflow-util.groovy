@@ -161,7 +161,7 @@ def sendHttpRequest(url) {
     return new String(response)
 }
 
-def updateChecks(serviceName, swarmNode) {
+def updateChecks(serviceName, swarmNode, prodIp) {
     stage "Update checks"
     stash includes: 'consul_check.ctmpl', name: 'consul-check'
     node(swarmNode) {
