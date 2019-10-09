@@ -59,6 +59,15 @@ launch Jenkins job to provision prod node with ansible http://10.100.198.200:808
 To start the parameterized job for service deployment follow the link http://10.100.198.200:8080/job/books-ms/ 
 with default parameters
 
+to verify service in Consul  http://10.100.198.201:8500/ui/#/dc1/services/books-ms
+to verify service from console:
+```
+vagrant ssh prod
+
+curl -i http://10.100.198.201/api/v1/books
+```
+should return "HTTP/1.1 200 OK ...."
+
 
 ----------------------------------------------------------------------------------
 Automating Blue-Green Deployment
