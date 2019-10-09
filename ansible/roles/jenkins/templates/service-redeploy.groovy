@@ -17,5 +17,5 @@ node("cd") {
     } catch (e) {}
 
     flow.deploySwarm(serviceName, prodIp, currentColor, instances)
-    flow.updateBGProxy(serviceName, proxyNode, currentColor)
+    flow.updateBGProxy(serviceName, proxyNode, currentColor, prodIp)
 }
