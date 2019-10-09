@@ -25,15 +25,9 @@ cd myms-lifecycle
 ```
 
 ----------------------------------------------------------------------------------
-next chapter
+previous chapters 
 ----------------------------------------------------------------------------------
-(Book Chapter: "")
-
-----------------------------------------------------------------------------------
-Automating Implementation of the Deployment Pipeline (needed verification)
-----------------------------------------------------------------------------------
-(Book Chapter: "Automating Implementation of the Deployment Pipeline: ")
-
+* NOTE: I've tried to fix the issues I faced myself passing the book chapters covering CI/CD automation, deployments, self-healing, and system monitoring, so the best way is to go through the book chapters mentioned above along with a code from this repo. However, some of my solutions are not the best so you are free to find the better suitable for you.
 
 ----------------------------------------------------------------------------------
 Continuous Integration (CI), Delivery and Deployment (CD) Tools
@@ -60,7 +54,8 @@ To start the parameterized job for service deployment follow the link http://10.
 with default parameters
 
 to verify service in Consul  http://10.100.198.201:8500/ui/#/dc1/services/books-ms
-to verify service from console:
+
+to verify service from console, connect to prod node and run curl command:
 ```
 vagrant ssh prod
 
