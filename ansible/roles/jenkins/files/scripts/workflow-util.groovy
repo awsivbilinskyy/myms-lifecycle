@@ -4,7 +4,7 @@ import org.apache.commons.httpclient.methods.GetMethod
 
 
 def provision(playbook) {
-    stage "Provision"
+    stage "Provision ${playbook}"
     env.PYTHONUNBUFFERED = 1
     sh "ansible-playbook /vagrant/ansible/${playbook} \
         -i /vagrant/ansible/hosts/prod"
