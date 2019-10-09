@@ -36,7 +36,7 @@ Automating Implementation of the Deployment Pipeline (needed verification)
 
 
 ----------------------------------------------------------------------------------
-Continuous Integration (CI), Delivery and Deployment (CD) Tools (needed verification)
+Continuous Integration (CI), Delivery and Deployment (CD) Tools
 ----------------------------------------------------------------------------------
 (Book Chapter: "Continuous Integration (CI), Delivery and Deployment (CD) Tools: Jenkins", page 196)
 
