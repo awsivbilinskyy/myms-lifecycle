@@ -9,4 +9,17 @@
     - registrator
     - consul-template
     - nginx
+
+# Illya - docker reconfiguraion step 
+- hosts: prod
+  remote_user: vagrant
+  sudo: yes
+  tasks:
+    - name: Execute reconfiguration script on host
+      command: sh /vagrant/scripts/reconfigure_docker.sh
+
+- hosts: prod
+  remote_user: vagrant
+  serial: 1
+  roles:
     - service

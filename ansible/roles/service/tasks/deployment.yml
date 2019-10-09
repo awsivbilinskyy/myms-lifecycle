@@ -26,7 +26,7 @@
 
 - name: Proxy is configured
   shell: consul-template \
-    -consul localhost:8500 \
+    -consul 10.100.198.201:8500 \
     -template "{{ ct_src }}:{{ ct_dest }}:{{ ct_cmd }}" \
     -once
   tags: [service]

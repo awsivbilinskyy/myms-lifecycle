@@ -36,7 +36,7 @@ Automating Implementation of the Deployment Pipeline (needed verification)
 
 
 ----------------------------------------------------------------------------------
-Continuous Integration (CI), Delivery and Deployment (CD) Tools (needed verification)
+Continuous Integration (CI), Delivery and Deployment (CD) Tools
 ----------------------------------------------------------------------------------
 (Book Chapter: "Continuous Integration (CI), Delivery and Deployment (CD) Tools: Jenkins", page 196)
 
@@ -51,6 +51,23 @@ setup and configure Jenkins node and master nodes:
 ansible-playbook /vagrant/ansible/jenkins-node.yml -i /vagrant/ansible/hosts/prod
 ansible-playbook /vagrant/ansible/jenkins.yml -c local
 ```
+launch Jenkins job to provision prod node with ansible http://10.100.198.200:8080/job/books-ms-ansible/
+
+* notice from time to time this may fail with an error:
+"Failed to import the required Python library (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)" - to fix this just restart the playbook once more
+
+To start the parameterized job for service deployment follow the link http://10.100.198.200:8080/job/books-ms/ 
+with default parameters
+
+to verify service in Consul  http://10.100.198.201:8500/ui/#/dc1/services/books-ms
+to verify service from console:
+```
+vagrant ssh prod
+
+curl -i http://10.100.198.201/api/v1/books
+```
+should return "HTTP/1.1 200 OK ...."
+
 
 ----------------------------------------------------------------------------------
 Automating Blue-Green Deployment
@@ -92,7 +109,7 @@ curl -I 10.100.198.201/api/v1/books
 or you can verify current color of release deployed from Consul ui http://10.100.198.201:8500/ui/#/dc1/kv/books-ms/color/edit
 
 ----------------------------------------------------------------------------------
-Swarm Cluster Blue-Green deployment with Jenkins jobs (verified)
+Swarm Cluster Blue-Green deployment with Jenkins jobs
 ----------------------------------------------------------------------------------
 (Book Chapter: "Clustering And Scaling Services: Automating Deployment With Docker Swarm and Ansible", page 291)
 
@@ -180,7 +197,7 @@ with Green deployment running, while Blue exited, with the data we've inputed fo
 For cleaning up the environment exit the cd VM, and use cleanup.sh script.
 
 ----------------------------------------------------------------------------------
-Self-Healing Systems - redeployment, scaling, descaling jobs (verified)
+Self-Healing Systems - redeployment, scaling, descaling jobs
 ----------------------------------------------------------------------------------
 (Book Chapter: "Self-Healing Systems: Self-healing with Docker, ConsulWatches, and Jenkins", page 312)
 
