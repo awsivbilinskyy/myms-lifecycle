@@ -101,7 +101,7 @@ def runBGPostIntegrationTests(serviceName, prodIp, proxyIp, proxyNode, currentCo
         runTests(serviceName, "integ", "-e DOMAIN=http://${proxyIp}")
     } catch(e) {
         if (currentColor != "") {
-            updateBGProxy(serviceName, proxyNode, currentColor)
+            updateBGProxy(serviceName, proxyNode, currentColor, prodIp)
         }
         stopBG(serviceName, prodIp, nextColor);
         error("Post-integration tests failed")
