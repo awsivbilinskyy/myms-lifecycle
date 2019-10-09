@@ -124,7 +124,8 @@ def updateBGProxy(serviceName, proxyNode, color, prodIp) {
     node(proxyNode) {
         unstash 'nginx'
         sh "sudo cp nginx-includes.conf /data/nginx/includes/${serviceName}.conf"
-        sh "sudo consul-template -consul ${prodIp}:8500 \
+        sh "sudo consul-template \
+            -consul ${prodIp}:8500 \
             -template \"nginx-upstreams-${color}.ctmpl:/data/nginx/upstreams/${serviceName}.conf:docker kill -s HUP nginx\" \
             -once"
         sh "curl -X PUT -d ${color} http://${prodIp}:8500/v1/kv/${serviceName}/color"
