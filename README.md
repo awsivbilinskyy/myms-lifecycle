@@ -44,13 +44,13 @@ Automating Implementation of the Deployment Pipeline (verify)
 ----------------------------------------------------------------------------------
 (Book Chapter: "Automating Implementation of theDeployment Pipeline", page 178)
 
-Start VM's for needed for this task and connect to cd node:
+Start VM's for needed for this book chapter and connect to cd node:
 ```
 vagrant up cd prod
 
 vagrant ssh cd
 ```
-clone application repository on cd node and enter:
+clone application repository on cd node and enter working directory:
 ```
 git clone https://github.com/awsivbilinskyy/mybooks-ms.git
 
