@@ -5,9 +5,12 @@ My tryouts to refresh "Devops 2.0 toolkit" book repository to make things work a
 - changed some stuff in Ansible playbooks, considering things mentioned above;
 - changed some features in Jenkins pipelines (some original jobs)
 
+ NOTE:
+* I've tried to fix the issues I faced myself passing the book chapters covering CI/CD automation, deployments, self-healing, and system monitoring, so the best way is to go through the book chapters mentioned above along with a code from this repo. However, some of my solutions are not the best so you are free to find the better suitable for you.
+
 Prerequisits for host VM
 ----------------------------------------------------------------------------------
-for Ubuntu 16.04 host:
+for Ubuntu (16.04/18.04) host:
 
 * Installation of Oracle Virtual Box and Vagrant are required on host machine:
 ```
@@ -36,8 +39,6 @@ cd myms-lifecycle
 ----------------------------------------------------------------------------------
 previous chapters 
 ----------------------------------------------------------------------------------
-* NOTE: I've tried to fix the issues I faced myself passing the book chapters covering CI/CD automation, deployments, self-healing, and system monitoring, so the best way is to go through the book chapters mentioned above along with a code from this repo. However, some of my solutions are not the best so you are free to find the better suitable for you.
-
 
 ----------------------------------------------------------------------------------
 Automating Implementation of the Deployment Pipeline (verify)
@@ -60,6 +61,9 @@ now we will run Ansible playbook to deploy all provision steps described in book
 ```
 ansible-playbook /vagrant/ansible/service.yml -i /vagrant/ansible/hosts/prod --extra-vars "repo_dir=$PWD service_name=books-ms"
 ```
+* notice: from time to time this may fail with an error:
+"Failed to import the required Python library (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)" - to fix this just restart the playbook once more
+
 to verify if application was deployed succesfuly the next command:
 ```
 curl -i http://10.100.198.201/api/v1/books
