@@ -7,14 +7,15 @@ My tryouts to refresh "Devops 2.0 toolkit" book repository to make things work a
 
 Prerequisits for host VM
 ----------------------------------------------------------------------------------
-for Ubuntu 16.04 host
-Installation of Oracle Virtual Box and Vagrant are required on host machine:
+for Ubuntu 16.04 host:
+
+* Installation of Oracle Virtual Box and Vagrant are required on host machine:
 ```
 sudo apt-get install -y virtualbox
 
 sudo apt-get install -y vagrant
 ```
-verify Vagrant installation and install additional vagrant plugins on host:
+* verify Vagrant installation and install additional vagrant plugins on host:
 ```
 vagrant -v
 
@@ -23,7 +24,7 @@ vagrant plugin install disksize && \
 vagrant plugin install proxyconf
 ```
 
-Clone my repositories from github and navigate to a working directory:
+* Clone my repositories from github and navigate to a working directory:
 ```
 git clone https://github.com/awsivbilinskyy/mybooks-ms.git 
 
