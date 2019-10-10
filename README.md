@@ -5,13 +5,21 @@ My tryouts to refresh "Devops 2.0 toolkit" book repository to make things work a
 - changed some stuff in Ansible playbooks, considering things mentioned above;
 - changed some features in Jenkins pipelines (some original jobs)
 
-Prerequisits for host VM (for Ubuntu 16.04 host)
+Prerequisits for host VM
 ----------------------------------------------------------------------------------
-install vagrant and required vagrant plugins on host machine:
+for Ubuntu 16.04 host
+Installation of Oracle Virtual Box and Vagrant are required on host machine:
 ```
-vagrant plugin install vagrant-cachier
-vagrant plugin install disksize
-vagrant plugin install proxyconf
+sudo apt-get install -y virtualbox
+
+sudo apt-get install -y vagrant
+```
+verify Vagrant installation and install additional vagrant plugins on host:
+```
+vagrant -v
+
+vagrant plugin install vagrant-cachier && \
+vagrant plugin install disksize && \
 vagrant plugin install proxyconf
 ```
 
@@ -28,6 +36,34 @@ cd myms-lifecycle
 previous chapters 
 ----------------------------------------------------------------------------------
 * NOTE: I've tried to fix the issues I faced myself passing the book chapters covering CI/CD automation, deployments, self-healing, and system monitoring, so the best way is to go through the book chapters mentioned above along with a code from this repo. However, some of my solutions are not the best so you are free to find the better suitable for you.
+
+
+----------------------------------------------------------------------------------
+Automating Implementation of the Deployment Pipeline (verify)
+----------------------------------------------------------------------------------
+(Book Chapter: "Automating Implementation of theDeployment Pipeline", page 178)
+
+Start VM's for needed for this task and connect to cd node:
+```
+vagrant up cd prod
+
+vagrant ssh cd
+```
+clone application repository on cd node and enter:
+```
+git clone https://github.com/awsivbilinskyy/mybooks-ms.git
+
+cd mybooks-ms
+```
+now we will run Ansible playbook to deploy all provision steps described in book chapter 
+```
+ansible-playbook /vagrant/ansible/service.yml -i /vagrant/ansible/hosts/prod --extra-vars "repo_dir=$PWD service_name=books-ms"
+```
+to verify if application was deployed succesfuly the next command:
+```
+curl -i http://10.100.198.201/api/v1/books
+```
+should return "HTTP/1.1 200 OK..." responce
 
 ----------------------------------------------------------------------------------
 Continuous Integration (CI), Delivery and Deployment (CD) Tools
