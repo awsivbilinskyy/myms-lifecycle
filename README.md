@@ -39,8 +39,21 @@ cd myms-lifecycle
 ```
 
 ----------------------------------------------------------------------------------
-previous chapters 
+First chapters of the book
 ----------------------------------------------------------------------------------
+The practice Chapters of the book:
+- Setting Up the Development Environment With Vagrant and Docker
+- Implementation of the Deployment Pipeline: Initial Stages
+- Configuration Management in the Docker World
+- Implementation of the Deployment Pipeline: Intermediate Stages
+- Service Discovery: The Key to Distributed Services
+- Proxy Services
+- Implementation of the Deployment Pipeline: The Late Stages
+
+were verified to work with no problems, however you should use 
+my [awsivbilinskyy/mybooks-ms](https://github.com/awsivbilinskyy/mybooks-ms.git) repo, instead [vfarcic/books-ms](https://github.com/vfarcic/books-ms.git)
+and my [awsivbilinskyy/myms-lifecycle](https://github.com/awsivbilinskyy/myms-lifecycle.git) repo, instead [vfarcic/ms-lifecycle](https://github.com/vfarcic/ms-lifecycle.git)
+running manual steps described in those chapters.
 
 ----------------------------------------------------------------------------------
 Automating Implementation of the Deployment Pipeline (verify)
