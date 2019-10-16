@@ -5,6 +5,8 @@ My tryouts to refresh "Devops 2.0 toolkit" book repository to make things work a
 - changed some stuff in Ansible playbooks, considering things mentioned above;
 - changed some features in Jenkins pipelines (some original jobs)
 
+This repo is IaC part of the book practice. Application repo itself with automated tests is located here [mybooks-ms](https://github.com/awsivbilinskyy/mybooks-ms)
+
  NOTE:
 * I've tried to fix the issues I faced myself passing the book chapters covering CI/CD automation, deployments, self-healing, and system monitoring, so the best way is to go through the book chapters mentioned above along with a code from this repo. However, some of my solutions are not the best so you are free to find the better suitable for you.
 
